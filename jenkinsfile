@@ -1,28 +1,47 @@
 pipeline {
     agent any
 	
+    parameters {
+        choice (name: 'STAGE', choices: ['build','deploy','test'], description: 'select astage to build')
+    }
+
     stages {
         stage('BUILd') {
             steps {
-                sh '''
-                    #!/bin/bash
-                    ls
-                    pwd
-                    echo "This is a BUILD stage"
-                    sleep 5
-                '''
-            }   
-        }
+                script {
+                    if(params.STAGE == 'build')
+                    {
+                        sh '''
+                            #!/bin/bash
+                            ls
+                            pwd
+                            echo "This is a BUILD stage"
+                            sleep 5
+                       '''
+                   }        
+                }   
+           }
+        }              
         stage('DEPLOY') {
              steps {
-                echo "This is a DEPLOY stage"
-                sh 'sleep 5'  
+                script {
+                    if(params.STAGE == 'deploy')
+                    {
+                        echo "This is a DEPLOY stage"
+                        sh 'sleep 5'
+                    } 
+                }     
             } 
         }
-        stage('TESTING') {
+        stage('TEST') {
              steps {
-                sh 'echo "This is a TESTING stage"'
-                sh 'sleep 5'
+                script {
+                    if(params.STAGE == 'test')
+                    {
+                        sh 'echo "This is a TEST stage"'
+                        sh 'sleep 5'
+                    }
+                }
             } 
         }
         
