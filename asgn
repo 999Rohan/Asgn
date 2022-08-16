@@ -1,0 +1,43 @@
+pipeline {
+
+    agent any 
+    stages {
+        stage('BUILD') {
+            when {
+                expression { select == 'BUILD'}
+            }
+             
+            steps {
+                echo "This is a BUILD stage"
+                time
+            }
+        }
+        stage('DEPLOY') {
+            when {
+                expression { select == 'DEPLOY'}
+            }
+            steps {
+                echo "This is a DEPLOY stage"
+                pwd
+            }
+        }
+        stage('TESTING1') {
+             when {
+                expression { select == 'TESTING1'}
+            }
+            steps {
+                echo "This is a TESTING1 stage"
+                ls
+            }
+        }
+        stage('TESTING2') {
+             when {
+                expression { select == 'TESTING2'}
+            }
+            steps {
+                echo "This is a TESTING2 stage"
+                date
+            }
+        }
+    }
+}
